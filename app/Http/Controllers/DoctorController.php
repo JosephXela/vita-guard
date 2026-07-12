@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Doctor;
+use App\Models\DoctorSchedule;
 use DB;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -34,8 +35,6 @@ class DoctorController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        // Buat user baru
         $user = new User();
         $user->name = $request->name;
         $user->email = strtolower(str_replace(' ', '', $request->name)) . '@vitaguard.com';
@@ -49,13 +48,23 @@ class DoctorController extends Controller
         if ($request->hasFile('image')) {
             $path = $request->file('image')
                 ->store('img/doctors', 'public');
-    
+
             $doctor->image = $path;
         }
         //$doctor->image = 'img/doctors/no_image_preview.png';
         $doctor->specialization = $request->specialization;
         $doctor->years_experience = $request->years_experience;
         $doctor->save();
+
+        foreach ($request->day as $index => $day) {
+
+            DoctorSchedule::create([
+                'doctor_id' => $doctor->id,
+                'day' => $day,
+                'start_time' => $request->start_time[$index],
+                'end_time' => $request->end_time[$index],
+            ]);
+        }
 
         return redirect()
             ->route('doctors.index')
@@ -101,6 +110,17 @@ class DoctorController extends Controller
         $doctor->years_experience = $request->years_experience;
         $doctor->save();
 
+        DoctorSchedule::where('doctor_id', $doctor->id)->delete();
+
+        foreach ($request->day as $index => $day) {
+            DoctorSchedule::create([
+                'doctor_id' => $doctor->id,
+                'day' => $day,
+                'start_time' => $request->start_time[$index],
+                'end_time' => $request->end_time[$index],
+            ]);
+        }
+
         return redirect()
             ->route('doctors.index')
             ->with('success', 'Successfully Updated Data.');
@@ -124,8 +144,8 @@ class DoctorController extends Controller
     public function showDetail(Request $request)
     {
         $doctor = Doctor::with(['schedules', 'user'])->find($request->id);
-        
-        if($doctor && $doctor->schedules->count() > 0) {
+
+        if ($doctor && $doctor->schedules->count() > 0) {
             $body = view('doctors.detail', [
                 'schedules' => $doctor->schedules
             ])->render();

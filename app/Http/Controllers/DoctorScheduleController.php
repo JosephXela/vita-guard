@@ -13,9 +13,7 @@ class DoctorScheduleController extends Controller
      */
     public function index()
     {
-        //
         $allDoctorSchedules = DoctorSchedule::with('doctor.user')->get();
-        //$allDoctorSchedules = DB::table('doctor_schedules')->get();;
         return view('doctorSchedules.index', compact('allDoctorSchedules'));
     }
 
@@ -66,16 +64,4 @@ class DoctorScheduleController extends Controller
     {
         //
     }
-
-    // public function showDetail(Request $request)
-    // {
-    //     $doctorSchedule = DoctorSchedule::with('doctor.user')->findOrFail($request->id);
-        
-    //     $htmlOutput = view('doctorSchedules.detail', compact('doctorSchedule'))->render();
-
-    //     return response()->json([
-    //         'title' => 'Detail Jadwal Kerja',
-    //         'body'  => $htmlOutput
-    //     ]);
-    // }
 }
