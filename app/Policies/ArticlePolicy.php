@@ -40,7 +40,7 @@ class ArticlePolicy
     public function delete(User $user)
     {
         //
-        return ($user->role == "admin") ?
+        return ($user->role == "ADMIN") ?
             Response::allow() :
             Response::deny("Hanya Admin Yang Dapat Menghapus Artikel");
     }
