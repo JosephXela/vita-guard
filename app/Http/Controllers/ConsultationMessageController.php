@@ -44,6 +44,12 @@ class ConsultationMessageController extends Controller
 
         $message->save();
 
+        if (Auth::user()->role == 'MEMBER') {
+            return redirect()
+                ->route('member.consultations.index')
+                ->with('success', 'Pesan berhasil dikirim.');
+        }
+
         return redirect()
             ->route('consultations.index')
             ->with('success', 'Pesan berhasil dikirim.');

@@ -17,7 +17,6 @@ class DoctorController extends Controller
     {
         //
         $allDoctors = Doctor::with(['user', 'schedules'])->get();
-        //$allDoctors = DB::table('doctors')->get();;
         return view('doctors.index', compact('allDoctors'));
     }
 
@@ -50,7 +49,7 @@ class DoctorController extends Controller
         if ($request->hasFile('image')) {
             $path = $request->file('image')
                 ->store('img/doctors', 'public');
-
+    
             $doctor->image = $path;
         }
         //$doctor->image = 'img/doctors/no_image_preview.png';

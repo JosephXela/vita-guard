@@ -5,11 +5,11 @@
     <div class="row">
         <div class="span12">
             <h3 class="heading">Your Consultation Booking Status</h3>
-            
+
             @if(session('success'))
-                <div class="alert alert-success" style="padding: 15px; margin-bottom: 20px; border-radius: 4px;">
-                    {{ session('success') }}
-                </div>
+            <div class="alert alert-success" style="padding: 15px; margin-bottom: 20px; border-radius: 4px;">
+                {{ session('success') }}
+            </div>
             @endif
 
             <div style="margin: 0 auto; display: table; width: 100%;">
@@ -23,26 +23,32 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($myBookings as $booking)
-                            <tr>
-                                <td>{{ $booking->doctor->user->name }}</td>
-                                <td>{{ $booking->booking_date }}<br>o'clock: {{ $booking->booking_time }}</td>
-                                <td>
-                                    @if($booking->status == 'PENDING')
-                                        <span class="label label-warning">PENDING</span>
-                                    @elseif($booking->status == 'APPROVED')
-                                        <span class="label label-success">APPROVED</span>
-                                    @elseif($booking->status == 'DONE')
-                                        <span class="label label-info">DONE</span>
-                                    @else
-                                        <span class="label label-important">REJECTED</span>
-                                    @endif
-                                </td>
-                                <td>{{ $booking->notes ?? '-' }}</td>
-                            </tr>
-                        @endforeach
+                        @forelse($myBookings as $booking)
+                        <tr>
+                            <td>{{ $booking->doctor->user->name }}</td>
+                            <td>{{ $booking->booking_date }}<br>o'clock: {{ $booking->booking_time }}</td>
+                            <td>
+                                @if($booking->status == 'PENDING')
+                                <span class="label label-warning">PENDING</span>
+                                @elseif($booking->status == 'APPROVED')
+                                <span class="label label-success">APPROVED</span>
+                                @elseif($booking->status == 'DONE')
+                                <span class="label label-info">DONE</span>
+                                @else
+                                <span class="label label-important">REJECTED</span>
+                                @endif
+                            </td>
+                            <td>{{ $booking->notes ?? '-' }}</td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="6" class="text-center">
+                                No bookings.
+                            </td>
+                        </tr>
+                        @endforelse
                     </tbody>
-                </table>               
+                </table>
             </div>
         </div>
     </div>

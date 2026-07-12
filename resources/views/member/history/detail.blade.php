@@ -11,31 +11,14 @@
                 </div>
 
                 <div style="height: 350px; overflow-y: auto; padding: 20px; background: #f4f7f6; display: flex; flex-direction: column; gap: 15px;">
-                    @forelse($messages as $msg)
+                    @foreach($messages as $msg)
                         <div style="display: flex; flex-direction: column; align-items: {{ $msg->sender_id == auth()->id() ? 'flex-end' : 'flex-start' }};">
                             <div style="max-width: 70%; padding: 10px 15px; border-radius: 12px; background: {{ $msg->sender_id == auth()->id() ? '#3fbbc0' : '#fff' }}; color: {{ $msg->sender_id == auth()->id() ? '#fff' : '#333' }}; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">
                                 {{ $msg->message }}
                             </div>
                             <small style="color: #aaa; font-size: 10px; margin-top: 3px;">{{ $msg->created_at->format('H:i') }}</small>
                         </div>
-                    @empty
-                        <p class="text-center" style="color: #999; margin-top: 100px;">Belum ada percakapan. Silakan ketik pesan pertama Anda untuk memulai konsultasi.</p>
-                    @endforelse
-                </div>
-
-                <div style="padding: 15px; background: #fff; border-top: 1px solid #eee;">
-                    @if($consultation->status == 'ACTIVE')
-                    <form action="{{ route('consultation-messages.store', $consultation->id) }}" method="POST" style="margin: 0; display: flex; gap: 10px;">
-                        @csrf
-                        <input type="hidden" name="consultation_id" value="{{ $consultation->id }}">
-                        <input type="text" name="message" required placeholder="Tulis pesan medis Anda di sini..." style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
-                        <button type="submit" class="btn btn-theme" style="padding: 10px 20px;">Kirim</button>
-                    </form>
-                    @else
-                    <div class="alert alert-warning text-center" style="margin: 0;">
-                        Sesi konsultasi ini telah ditutup oleh dokter. Ringkasan telah disimpan ke riwayat medis.
-                    </div>
-                    @endif
+                    @endforeach
                 </div>
             </div>
         </div>

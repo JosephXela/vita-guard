@@ -154,6 +154,17 @@ class MemberController extends Controller
         $messages = $consultation->messages()->orderBy('created_at', 'asc')->get();
         return view('member.consultations.show', compact('consultation', 'messages'));
     }
+    public function detailHistory(Consultation $consultation)
+    {
+        $consultation->load('booking');
+
+        if ($consultation->booking->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $messages = $consultation->messages()->orderBy('created_at', 'asc')->get();
+        return view('member.history.detail', compact('consultation', 'messages'));
+    }
 
     public function indexHistory()
     {

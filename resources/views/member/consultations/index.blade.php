@@ -13,7 +13,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($myConsultations as $consultation)
+            @forelse($myConsultations as $consultation)
             <tr>
                 <td>{{ $consultation->booking->doctor->user->name }}</td>
                 <td>{{ $consultation->status }}</td>
@@ -22,7 +22,13 @@
                     <a href="{{ route('member.consultations.show', $consultation->id) }}" class="btn btn-theme">Open Chat</a>
                 </td>
             </tr>
-            @endforeach
+            @empty
+            <tr>
+                <td colspan="6" class="text-center">
+                    No consultations.
+                </td>
+            </tr>
+            @endforelse
         </tbody>
     </table>
 </div>

@@ -97,7 +97,15 @@
         let status = $('#btnApprove').text() == 'Approve' ?
             'APPROVED' :
             'DONE';
-        let summary = $('#summary').val();
+
+        let summary = $('#summary').val().trim();
+
+        if (status == 'DONE' && summary == '') {
+            alert('Summary harus diisi terlebih dahulu.');
+            $('#summary').focus();
+            return;
+        }
+
 
         $.ajax({
             type: 'POST',
