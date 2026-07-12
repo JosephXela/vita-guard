@@ -3,7 +3,7 @@
 <div class="container">
     <h2>Add Articles</h2>
     <form method="POST" action="{{route('articles.store') }}" enctype="multipart/form-data">
-        
+
         @csrf
         <div class="form-group">
             <label for="name">Name</label>
@@ -17,11 +17,17 @@
                 placeholder="Enter Content Name">
             <small id="name" class="form-text text-muted">Please write down Content here.</small>
 
-            <br><!--SEMENTARA INI DULU KARENA BELUM ADA LOGIN-->
-            <label for="name">Doctor ID</label>
-            <input type="text" class="form-control" id="doctor_id" name="doctor_id" aria-describedby="name"
-                placeholder="Enter Doctor ID">
-            <small id="name" class="form-text text-muted">Please write down Doctor ID here.</small>
+            <br>
+            <label for="doctor_id">Doctor</label>
+            <select class="form-control" id="doctor_id" name="doctor_id" aria-describedby="doctorHelp">
+                <option value="">-- Select Doctor --</option>
+                @foreach ($doctors as $doctor)
+                <option value="{{ $doctor->id }}">
+                    {{ $doctor->user->name ?? 'Unknown' }} - {{ $doctor->specialization ?? 'Umum' }}
+                </option>
+                @endforeach
+            </select>
+            <small id="doctorHelp" class="form-text text-muted">Please select a doctor from the list.</small>   
 
             <br>
             <label>Image</label>

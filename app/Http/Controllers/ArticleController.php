@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\Doctor;
 use DB;
 use Illuminate\Http\Request;
 use PDOException;
@@ -30,7 +31,8 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return view('articles.create');
+        $doctors = Doctor::all();
+        return view('articles.create', compact('doctors'));
     }
 
     /**
@@ -68,8 +70,8 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        //
-        return view('articles.edit', compact('article'));
+        $doctors = Doctor::all();
+        return view('articles.edit', compact('article','doctors'));
     }
 
     /**
