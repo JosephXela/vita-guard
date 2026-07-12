@@ -9,6 +9,8 @@ use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\DoctorScheduleController;
 use App\Http\Controllers\RiwayatController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\MembersController;
+use App\Http\Controllers\UsersController;
 use App\Models\Article;
 use App\Models\Booking;
 use App\Models\Consultation;
@@ -88,6 +90,8 @@ Route::middleware(["auth"])->group(function () {
     Route::post('/consultations/detail', [ConsultationController::class, 'showDetail'])->name('consultations.showDetail');
     Route::post('/bookings/detail', [BookingController::class, 'showDetail'])->name('bookings.showDetail');
     Route::post('/riwayats/detail', [RiwayatController::class, 'showDetail'])->name('riwayats.showDetail');
+    Route::post('/members/detail', [MembersController::class, 'showDetail'])->name('members.showDetail');
+
 
     Route::resource('articles', ArticleController::class);
     Route::resource('bookings', BookingController::class);
@@ -96,6 +100,9 @@ Route::middleware(["auth"])->group(function () {
     Route::resource('doctorSchedules', DoctorScheduleController::class);
     Route::resource('riwayats', RiwayatController::class);
     Route::resource('dashboard', DashboardController::class);
+    Route::resource('members', MembersController::class);
+    Route::resource('users', UsersController::class);
+
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

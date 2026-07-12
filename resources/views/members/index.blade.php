@@ -1,11 +1,10 @@
 @extends('layouts.adminlte4')
-@section('title', 'Users')
-@section('users-active', 'active')
-
+@section('title', 'Members')
+@section('members-active', 'active')
 @section('content')
 
 <div class="container">
-    <h2>Users</h2>
+    <h2>Members</h2>
 
     @if(session('success'))
     <div class="alert alert-success">
@@ -20,18 +19,15 @@
     @endif
 
     @can('create-permission', Auth::user())
-    <a href="{{ route('users.create') }}" class="btn-primary"> + New User </a>
+    <a href="{{ route('members.create') }}" class="btn-primary"> + New Member </a>
     @endcan
-
     <table class="table">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Role</th>
                 <th>Profile</th>
-
                 @can('action-read', Auth::user())
                 <th>Edit</th>
                 @endcan
@@ -43,34 +39,22 @@
         </thead>
 
         <tbody>
-
-            @foreach($users as $user)
-
+            @foreach($members as $member)
             <tr>
-
-                <td>{{ $user->id }}</td>
-                <td>{{ $user->name }}</td>
-                <td>{{ $user->email }}</td>
-
+                <td>{{ $member->id }}</td>
+                <td>{{ $member->name }}</td>
+                <td>{{ $member->email }}</td>
                 <td>
-                    <span class="badge bg-primary">
-                        {{ $user->role }}
-                    </span>
-                </td>
-
-                <td>
-                    <button
-                        type="button"
+                    <button type="button"
                         class="btn btn-primary btn-sm"
                         data-bs-toggle="modal"
-                        data-bs-target="#userModal-{{ $user->id }}">
+                        data-bs-target="#memberModal-{{ $member->id }}">
                         Show
                     </button>
                 </td>
-
                 @can('update-permission', Auth::user())
                 <td>
-                    <a href="{{ route('users.edit', $user->id) }}"
+                    <a href="{{ route('members.edit', $member->id) }}"
                         class="btn btn-warning btn-sm">
                         Edit
                     </a>
@@ -79,111 +63,78 @@
 
                 @can('delete-permission', Auth::user())
                 <td>
-                    <form method="POST"
-                        action="{{ route('users.destroy', $user->id) }}">
+                    <form action="{{ route('members.destroy', $member->id) }}"
+                        method="POST">
 
                         @csrf
                         @method('DELETE')
 
-                        <button
-                            type="submit"
+                        <button type="submit"
                             class="btn btn-danger btn-sm"
-                            onclick="return confirm('Delete {{ $user->name }} ?')">
+                            onclick="return confirm('Delete {{ $member->name }} ?')">
                             Delete
                         </button>
 
                     </form>
                 </td>
                 @endcan
-
             </tr>
-
             @push('modal')
-
             <div class="modal fade"
-                id="userModal-{{ $user->id }}"
+                id="memberModal-{{ $member->id }}"
                 tabindex="-1"
                 aria-hidden="true">
-
                 <div class="modal-dialog">
-
                     <div class="modal-content">
-
                         <div class="modal-header">
                             <h5 class="modal-title">
-                                User Profile
+                                Profile Member
                             </h5>
-
-                            <button
-                                type="button"
+                            <button type="button"
                                 class="btn-close"
                                 data-bs-dismiss="modal">
                             </button>
                         </div>
-
                         <div class="modal-body">
-
                             <table class="table table-borderless">
-
                                 <tr>
-                                    <th width="150">Name</th>
-                                    <td>{{ $user->name }}</td>
+                                    <th>Name</th>
+                                    <td>{{ $member->name }}</td>
                                 </tr>
-
                                 <tr>
                                     <th>Email</th>
-                                    <td>{{ $user->email }}</td>
+                                    <td>{{ $member->email }}</td>
                                 </tr>
-
                                 <tr>
                                     <th>Role</th>
-                                    <td>
-                                        <span class="badge bg-primary">
-                                            {{ $user->role }}
-                                        </span>
-                                    </td>
+                                    <td>{{ $member->role }}</td>
                                 </tr>
-
                                 <tr>
                                     <th>Phone</th>
-                                    <td>{{ $user->phone }}</td>
+                                    <td>{{ $member->phone }}</td>
                                 </tr>
-
                                 <tr>
                                     <th>Address</th>
-                                    <td>{{ $user->address }}</td>
+                                    <td>{{ $member->address }}</td>
                                 </tr>
-
                                 <tr>
-                                    <th>Birth Date</th>
-                                    <td>{{ $user->birth_date }}</td>
+                                    <th>BOD</th>
+                                    <td>{{ $member->birth_date }}</td>
                                 </tr>
-
                             </table>
-
                         </div>
-
                         <div class="modal-footer">
-                            <button
-                                class="btn btn-secondary"
+                            <button class="btn btn-secondary"
                                 data-bs-dismiss="modal">
                                 Close
                             </button>
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
             @endpush
-
             @endforeach
-
         </tbody>
     </table>
-
 </div>
-
 @endsection

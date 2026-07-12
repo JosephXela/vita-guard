@@ -291,6 +291,20 @@
                   </a>
                 </li>
                 <li class="nav-item">
+                  <a href="{{ route('members.index') }}" class="nav-link @yield('members-active')">
+                    <i class="bi bi-people"></i>
+                    <p>Members</p>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a href="{{ route('users.index') }}" class="nav-link @yield('users-active')">
+                    <i class="bi bi-person"></i>
+                    <p>Users</p>
+                  </a>
+                </li>
+                
+                <li class="nav-item">
                   <a href="{{ route('riwayats.index') }}" class="nav-link @yield('riwayats-active')">
                     <i class="bi-clock-history"></i>
                     <p>Histories</p>
