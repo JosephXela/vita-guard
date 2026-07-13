@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Service;
 use App\Models\Article;
 use App\Models\Doctor;
@@ -13,6 +14,10 @@ use Illuminate\Http\Request;
 
 class MemberController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:member-only');
+    }
     /**
      * Display a listing of the resource.
      */
@@ -101,7 +106,7 @@ class MemberController extends Controller
     public function createBooking(Doctor $doctor)
     {
         $schedules = DoctorSchedule::where('doctor_id', $doctor->id)->get();
-        
+
         return view('member.bookings.create', compact('doctor', 'schedules'));
     }
 

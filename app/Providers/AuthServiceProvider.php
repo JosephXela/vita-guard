@@ -64,5 +64,21 @@ class AuthServiceProvider extends ServiceProvider
                 Response::allow() :
                 Response::deny('Hanya Admin Yang Dapat Melihat');
         });
+        Gate::define('admin-only', function ($user) {
+            return $user->role == 'ADMIN'
+                ? Response::allow()
+                : Response::deny('Forbidden Access');
+        });
+
+        Gate::define('staff-only', function ($user) {
+            return in_array($user->role, ['ADMIN', 'DOCTOR'])
+                ? Response::allow()
+                : Response::deny('Forbidden Access');
+        });
+        Gate::define('member-only', function ($user) {
+            return $user->role == 'MEMBER'
+                ? Response::allow()
+                : Response::deny('Forbidden Access');
+        });
     }
 }

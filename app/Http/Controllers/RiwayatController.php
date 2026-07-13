@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 
 class RiwayatController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:staff-only');
+    }
     /**
      * Display a listing of the resource.
      */

@@ -11,6 +11,10 @@ use PDOException;
 
 class DoctorController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:staff-only');
+    }
     /**
      * Display a listing of the resource.
      */

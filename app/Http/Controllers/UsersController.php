@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:admin-only');
+    }
     /**
      * Display a listing of the resource.
      */

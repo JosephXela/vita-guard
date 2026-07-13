@@ -10,6 +10,10 @@ use PDOException;
 
 class MembersController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:admin-only');
+    }
     /**
      * Display a listing of the resource.
      */
