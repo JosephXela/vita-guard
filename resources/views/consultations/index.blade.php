@@ -17,7 +17,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($allConsultations as $consultation)
+            @forelse ($allConsultations as $consultation)
             <tr>
                 <td>{{ $consultation->id }}</td>
                 <td>{{ $consultation->booking->user->name}}</td>
@@ -41,7 +41,13 @@
                     @endif
                 </td>
             </tr>
-            @endforeach
+            @empty
+            <tr>
+                <td colspan="6" class="text-center">
+                    No Consultations.
+                </td>
+            </tr>
+            @endforelse
         </tbody>
     </table>
 </div>
