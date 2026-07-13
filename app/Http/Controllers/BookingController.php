@@ -49,7 +49,7 @@ class BookingController extends Controller
         $booking->booking_time = $request->booking_time;
         $booking->status = 'pending';
         $booking->notes = $request->notes;
-        $booking->user_id = auth()->id(); // nanti kalau sudah ada login
+        $booking->user_id = auth()->id(); 
 
         $booking->save();
 

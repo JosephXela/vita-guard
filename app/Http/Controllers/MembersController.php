@@ -16,7 +16,6 @@ class MembersController extends Controller
     public function index()
     {
         $members = User::where('role', 'MEMBER')->get();
-
         return view('members.index', compact('members'));
     }
 

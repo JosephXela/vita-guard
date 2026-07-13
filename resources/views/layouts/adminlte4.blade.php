@@ -290,6 +290,7 @@
                     <p>Doctors</p>
                   </a>
                 </li>
+                @if(Auth::user()->role == 'ADMIN')
                 <li class="nav-item">
                   <a href="{{ route('members.index') }}" class="nav-link @yield('members-active')">
                     <i class="bi bi-people"></i>
@@ -303,6 +304,7 @@
                     <p>Users</p>
                   </a>
                 </li>
+                @endif
                 
                 <li class="nav-item">
                   <a href="{{ route('riwayats.index') }}" class="nav-link @yield('riwayats-active')">

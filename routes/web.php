@@ -32,17 +32,13 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(["auth"])->group(function () {
 
     Route::get('/', function () {
-        $role = Auth::user()->role; // Mengambil role user yang sedang login
-
+        $role = Auth::user()->role;
         if ($role === 'ADMIN') {
-            return redirect()->route('dashboard.index'); // Admin langsung ke dashboard AdminLTE
+            return redirect()->route('dashboard.index');
         }
-
         if ($role === 'DOCTOR') {
-            return redirect('/bookings'); // Dokter langsung ke daftar booking pasien mereka
+            return redirect('/bookings');
         }
-
-        // Jika dia MEMBER, jalankan method indexArticles
         return app(App\Http\Controllers\MemberController::class)->indexArticles(request());
     });
 
@@ -57,12 +53,10 @@ Route::middleware(["auth"])->group(function () {
     Route::get('/menu/{jenis}', function ($jenis) {
 
         if ($jenis == "konsultasi") {
-            /*return "Daftar layanan Konsultasi Online";*/
             return view('konsultasi');
         }
 
         if ($jenis == "janji") {
-            /*return "Daftar layanan Janji Temu Dokter";*/
             return view('janji');
         }
     });
@@ -74,13 +68,10 @@ Route::middleware(["auth"])->group(function () {
     Route::get('/administrasi/{jenis}', function ($jenis) {
 
         if ($jenis == "categories") {
-            /*return "Portal Manajemen: Daftar Kategori Layanan";*/
             return view('categories');
         } else if ($jenis == "order") {
-            /*return "Portal Manajemen: Daftar Konsultasi dan Janji Temu";*/
             return view('order');
         } else if ($jenis == "members") {
-            /*return "Portal Manajemen: Daftar Pasien";*/
             return view('members');
         }
     });
@@ -105,28 +96,21 @@ Route::middleware(["auth"])->group(function () {
 
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
     Route::get('/detail/{article}', [MemberController::class, 'detail'])->name('detailArticle');
-
     Route::get('/member/articles', [MemberController::class, 'indexArticles']);
     Route::get('/member/articles/{article}', [MemberController::class, 'showArticle']);
-
     Route::get('/member/doctors', [MemberController::class, 'indexDoctors']);
     Route::get('/member/doctors/{doctor}', [MemberController::class, 'showDoctor'])->name('member.doctors.show');
-
     Route::get('/member/bookings/create/{doctor}', [MemberController::class, 'createBooking']);
     Route::post('/member/bookings', [MemberController::class, 'storeBooking'])->name('member.bookings.store');
     Route::get('/member/bookings', [MemberController::class, 'indexBookings'])->name('member.bookings.index');
-
     Route::get('/member/consultations', [App\Http\Controllers\MemberController::class, 'indexConsultations'])->name('member.consultations.index');
     Route::get('/member/consultations/{consultation}', [MemberController::class, 'showConsultation'])->name('member.consultations.show');
     Route::get('/member/history', [MemberController::class, 'indexHistory']);
     Route::get('/member/history/{consultation}', [MemberController::class, 'detailHistory'])->name('member.history.detail');
-
 });
 
 Auth::routes();
-
 Route::post('/consultations/{consultation}/messages', [ConsultationMessageController::class, 'store'])
     ->name('consultation-messages.store');
 Route::post('/bookings/update-status', [BookingController::class, 'updateStatus'])

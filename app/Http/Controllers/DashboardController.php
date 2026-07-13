@@ -17,19 +17,12 @@ class DashboardController extends Controller
     public function index()
     {
         $jumlahDokter = Doctor::count();
-
         $jumlahMember = User::where('role', 'MEMBER')->count();
-
         $jumlahArtikel = Article::count();
-
         $jumlahBooking = Booking::count();
-
-        // Booking
         $jumlahBookingApproved = Booking::where('status', 'APPROVED')->count();
         $jumlahBookingDone = Booking::where('status', 'DONE')->count();
         $jumlahBookingCancel = Booking::where('status', 'CANCEL')->count();
-
-        // Consultation
         $jumlahConsultationActive = Consultation::where('status', 'ACTIVE')->count();
         $jumlahConsultationClosed = Consultation::where('status', 'CLOSED')->count();
 
