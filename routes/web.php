@@ -106,6 +106,7 @@ Route::middleware(["auth"])->group(function () {
     Route::get('/member/bookings', [MemberController::class, 'indexBookings'])->name('member.bookings.index');
     Route::get('/member/consultations', [App\Http\Controllers\MemberController::class, 'indexConsultations'])->name('member.consultations.index');
     Route::get('/member/consultations/{consultation}', [MemberController::class, 'showConsultation'])->name('member.consultations.show');
+    Route::get('/member/consultations/{consultation}/messages', [MemberController::class, 'inputMessages'])->name('member.consultations-messages.store');
     Route::get('/member/history', [MemberController::class, 'indexHistory']);
     Route::get('/member/history/{consultation}', [MemberController::class, 'detailHistory'])->name('member.history.detail');
 });

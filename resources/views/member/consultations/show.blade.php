@@ -1,44 +1,66 @@
 @extends('layouts.libra')
 
+@section('title', 'Consultation Chat')
+
 @section('content')
-<div class="container" style="margin-top: 30px; margin-bottom: 50px;">
-    <div class="row">
-        <div class="span8 offset2">
-            <div class="chat-container" style="background: #fff; border: 1px solid #eee; border-radius: 8px; overflow: hidden;">
-                <div style="background: #3fbbc0; padding: 15px 20px; color: #fff; display: flex; justify-content: space-between; align-items: center;">
-                    <h5 style="margin: 0; font-weight: bold; color: #fff;">Konsultasi Online: Dr. {{ $consultation->booking->doctor->user->name ?? 'Dokter' }}</h5>
-                    <span style="background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 20px; font-size: 12px;">Status: {{ ucfirst($consultation->status) }}</span>
-                </div>
 
-                <div style="height: 350px; overflow-y: auto; padding: 20px; background: #f4f7f6; display: flex; flex-direction: column; gap: 15px;">
-                    @forelse($messages as $msg)
-                        <div style="display: flex; flex-direction: column; align-items: {{ $msg->sender_id == auth()->id() ? 'flex-end' : 'flex-start' }};">
-                            <div style="max-width: 70%; padding: 10px 15px; border-radius: 12px; background: {{ $msg->sender_id == auth()->id() ? '#3fbbc0' : '#fff' }}; color: {{ $msg->sender_id == auth()->id() ? '#fff' : '#333' }}; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">
-                                {{ $msg->message }}
-                            </div>
-                            <small style="color: #aaa; font-size: 10px; margin-top: 3px;">{{ $msg->created_at->format('H:i') }}</small>
-                        </div>
-                    @empty
-                        <p class="text-center" style="color: #999; margin-top: 100px;">Belum ada percakapan. Silakan ketik pesan pertama Anda untuk memulai konsultasi.</p>
-                    @endforelse
-                </div>
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm overflow-hidden" style="border-radius: 14px;">
 
-                <div style="padding: 15px; background: #fff; border-top: 1px solid #eee;">
-                    @if($consultation->status == 'ACTIVE')
-                    <form action="{{ route('consultation-messages.store', $consultation->id) }}" method="POST" style="margin: 0; display: flex; gap: 10px;">
-                        @csrf
-                        <input type="hidden" name="consultation_id" value="{{ $consultation->id }}">
-                        <input type="text" name="message" required placeholder="Tulis pesan medis Anda di sini..." style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
-                        <button type="submit" class="btn btn-theme" style="padding: 10px 20px;">Kirim</button>
-                    </form>
-                    @else
-                    <div class="alert alert-warning text-center" style="margin: 0;">
-                        Sesi konsultasi ini telah ditutup oleh dokter. Ringkasan telah disimpan ke riwayat medis.
-                    </div>
-                    @endif
-                </div>
+            <!-- Chat Header -->
+            <div class="d-flex justify-content-between align-items-center px-4 py-3" style="background: var(--vg-primary);">
+                <h5 class="mb-0 fw-bold text-white">
+                    <i class="bi bi-chat-dots me-2"></i>Online Consultation: {{ $consultation->booking->doctor->user->name ?? 'Doctor' }}
+                </h5>
+                <span class="badge rounded-pill" style="background: rgba(255,255,255,0.2); color: #fff;">
+                    Status: {{ ucfirst(strtolower($consultation->status)) }}
+                </span>
             </div>
+
+            <!-- Chat Body -->
+            <div class="d-flex flex-column gap-3 p-4" style="height: 380px; overflow-y: auto; background: var(--vg-bg);">
+                @forelse ($messages as $msg)
+                <div class="d-flex flex-column" style="align-items: {{ $msg->sender_id == auth()->id() ? 'flex-end' : 'flex-start' }};">
+                    <div class="px-3 py-2 shadow-sm"
+                        style="max-width: 70%; border-radius: 14px;
+                                        background: {{ $msg->sender_id == auth()->id() ? 'var(--vg-primary)' : '#ffffff' }};
+                                        color: {{ $msg->sender_id == auth()->id() ? '#ffffff' : 'var(--vg-ink)' }};">
+                        {{ $msg->message }}
+                    </div>
+                    <small class="mt-1" style="color: var(--vg-muted); font-size: 0.72rem;">
+                        {{ $msg->created_at->format('H:i') }}
+                    </small>
+                </div>
+                @empty
+                <div class="text-center m-auto">
+                    <i class="bi bi-chat-heart" style="font-size: 2rem; color: var(--vg-muted);"></i>
+                    <p class="text-muted mt-2 mb-0">No messages yet. Type your first message to start the consultation.</p>
+                </div>
+                @endforelse
+            </div>
+
+            <!-- Chat Input -->
+            <div class="p-3 bg-white border-top">
+                @if ($consultation->status == 'ACTIVE')
+                <form action="{{ route('member.consultations-messages.store', $consultation->id) }}" method="GET" class="d-flex gap-2 mb-0">
+                    @csrf
+                    <input type="hidden" name="consultation_id" value="{{ $consultation->id }}">
+                    <input type="text" name="message" required class="form-control" placeholder="Write your medical message here...">
+                    <button type="submit" class="btn text-white px-4" style="background: var(--vg-primary);">
+                        <i class="bi bi-send-fill"></i> Send
+                    </button>
+                </form>
+                @else
+                <div class="alert alert-warning text-center mb-0">
+                    <i class="bi bi-lock-fill me-1"></i>
+                    This consultation session has been closed by the doctor. The summary has been saved to your medical history.
+                </div>
+                @endif
+            </div>
+
         </div>
     </div>
 </div>
+
 @endsection

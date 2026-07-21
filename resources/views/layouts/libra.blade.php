@@ -1,406 +1,383 @@
 <!DOCTYPE html>
-<!--[if IE 6]><html id="ie6" class="ie" lang="en-US"><![endif]-->
-<!--[if IE 7]><html id="ie7" class="ie" lang="en-US"><![endif]-->
-<!--[if IE 8]><html id="ie8" class="ie" lang="en-US"><![endif]-->
-<!--[if IE 9]><html id="ie9" class="ie" lang="en-US"><![endif]-->
-<!--[if gt IE 9]><html class="ie" lang="en-US"><![endif]-->
-<!--[if !IE]><html lang="en-US"><![endif]-->
+<html lang="id">
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.2, user-scalable=yes" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Vita Guard - Member health portal for doctor consultations, bookings, and health articles." />
 
-    <title>Vita Guard | Portal Kesehatan Member</title>
+    <title>@yield('title', 'Vita Guard') | Member Health Portal</title>
 
-    <!-- RESET STYLESHEET -->
-    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('libra/css/reset.css') }}" />
-    <!-- BOOTSTRAP STYLESHEET -->
-    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('libra/css/bootstrap.css') }}" />
-    <!-- MAIN THEME STYLESHEET -->
-    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('libra/style.css') }}" />
-
-    <!-- [favicon] begin -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('libra/favicon.ico') }}" />
-    <link rel="icon" type="image/x-icon" href="{{ asset('libra/favicon.ico') }}" />
 
-    <link rel='stylesheet' id='thickbox-css' href='{{ asset('libra/js/thickbox/thickbox.css') }}' type='text/css' media='all' />
-    <link rel='stylesheet' id='usquare-css-css' href='{{ asset('libra/sliders/usquare/css/frontend/usquare_style.css') }}' type='text/css' media='all' />
-    <link rel='stylesheet' id='google-fonts-css' href='http://fonts.googleapis.com/css?family=Playfair+Display%7COpen+Sans+Condensed%3A300%7COpen+Sans%7CShadows+Into+Light%7CMuli%7CDroid+Sans%7CArbutus+Slab%7CAbel&#038;ver=3.5.1' type='text/css' media='all' />
-    <link rel='stylesheet' id='responsive-css' href='{{ asset('libra/css/responsive.css') }}' type='text/css' media='all' />
-    <link rel='stylesheet' id='polaroid-slider-css' href='{{ asset('libra/sliders/polaroid/css/polaroid.css') }}' type='text/css' media='all' />
-    <link rel='stylesheet' id='ahortcodes-css' href='{{ asset('libra/css/shortcodes.css') }}' type='text/css' media='all' />
-    <link rel='stylesheet' id='contact-form-css' href='{{ asset('libra/css/contact_form.css') }}' type='text/css' media='all' />
-    <link rel='stylesheet' id='custom-css' href='{{ asset('libra/css/custom.css') }}' type='text/css' media='all' />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-    <style type="text/css">
-        body { 
-            background-color: #ffffff; 
-            background-image: url("{{ asset('libra/images/bg-pattern.png') }}"); 
-            background-repeat: repeat; 
-            background-position: top left; 
-            background-attachment: scroll; 
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    @stack('styles')
+
+    <style>
+        :root {
+            --vg-primary: #0f6e5e;
+            --vg-primary-dark: #0a4f43;
+            --vg-accent: #cbd113;
+            --vg-ink: #16232b;
+            --vg-muted: #6b7c85;
+            --vg-bg: #f6f9f8;
+            --vg-border: #e3ebe9;
         }
 
-        /* 1. Pengaturan Full Width */
-        #wrapper, #topbar, #header, #footer, #copyright {
-            width: 100% !important;
-            max-width: 100% !important;
+        * {
             box-sizing: border-box;
         }
-        .wrapper-border {
-            display: none !important;
-        }
-        
-        #topbar .container {
-            width: 100% !important;
-            max-width: 100% !important;
-            margin: 0 !important;
-            padding: 0 !important;
+
+        html,
+        body {
+            height: 100%;
         }
 
-        #header .container, #primary .container, #footer .container, #copyright .container {
-            width: 95% !important;
-            max-width: 1440px !important;
-            margin: 0 auto !important;
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--vg-bg);
+            color: var(--vg-ink);
         }
 
-        /* 2. Perbaikan Navbar */
-        #nav {
-            display: flex !important;
-            justify-content: space-between !important;
-            align-items: center !important;
-            height: 50px;
-            width: 100% !important;
-            max-width: 100% !important;
-            padding: 0 !important;
-            margin: 0 !important;
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        .brand-font {
+            font-family: 'Poppins', sans-serif;
         }
 
-        #nav ul#menu-menu {
-            display: flex !important;
-            list-style: none !important;
-            margin: 0 !important;
-            padding: 0 0 0 20px !important;
+        main {
+            flex: 1 0 auto;
         }
 
-        #nav ul#menu-menu li {
-            position: relative;
-            margin: 0 !important;
-            padding: 0 !important;
+        a {
+            text-decoration: none;
         }
 
-        #nav ul#menu-menu li a {
+        /* ===== Topbar (info strip) ===== */
+        .topbar {
+            background: var(--vg-primary-dark);
+            color: #cfe3de;
+            font-size: 0.82rem;
+        }
+
+        .topbar a {
+            color: #cfe3de;
+        }
+
+        .topbar a:hover {
+            color: #ffffff;
+        }
+
+        /* ===== Navbar utama ===== */
+        .navbar-vg {
+            background: var(--vg-primary);
+            box-shadow: 0 2px 10px rgba(15, 110, 94, 0.15);
+        }
+
+        .navbar-vg .navbar-brand {
+            font-weight: 700;
+            font-size: 1.35rem;
+            color: #ffffff;
+            letter-spacing: 0.2px;
+        }
+
+        .navbar-vg .navbar-brand small {
             display: block;
-            line-height: 50px;
-            padding: 0 20px !important;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 400;
+            color: #cfe3de;
+        }
+
+        .navbar-vg .nav-link {
+            color: rgba(255, 255, 255, 0.85) !important;
+            font-weight: 500;
+            font-size: 0.92rem;
+            padding: 0.6rem 1rem !important;
+            border-radius: 6px;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .navbar-vg .nav-link:hover,
+        .navbar-vg .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.12);
             color: #ffffff !important;
-            font-family: 'Open Sans Condensed', sans-serif;
-            font-size: 14px;
-            font-weight: bold;
-            text-decoration: none !important;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: background-color 0.3s ease;
         }
 
-        #nav ul#menu-menu li a:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+        .navbar-vg .nav-link.active {
+            font-weight: 600;
         }
 
-        /* 3. Perbaikan Tombol Logout Pojok Kanan */
-        #topbar_login {
-            margin: 0 !important;
-            padding: 0 !important;
-            margin-left: auto !important;
+        .btn-vg-outline {
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            color: #ffffff;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.4rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
         }
 
-        #topbar_login a.topbar_login {
-            display: block;
-            line-height: 50px;
-            padding: 0 25px !important;
-            color: #ffffff !important;
-            font-family: 'Open Sans Condensed', sans-serif;
-            font-size: 12px;
-            font-weight: bold;
-            text-decoration: none !important;
-            text-transform: uppercase;
-            background-color: rgba(0, 0, 0, 0.2);
-            border-left: 1px solid rgba(255, 255, 255, 0.1);
+        .btn-vg-outline:hover {
+            background: #ffffff;
+            color: var(--vg-primary-dark);
         }
 
-        #topbar_login a.topbar_login:hover {
-            background-color: rgba(0, 0, 0, 0.4);
+        .btn-vg-solid {
+            background: var(--vg-accent);
+            color: var(--vg-ink);
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 0.45rem 1.1rem;
+            border-radius: 6px;
+            border: none;
+            transition: filter 0.2s ease;
         }
 
-        /* 4. Perbaikan Struktur Layanan Darurat */
-        #logo-headersidebar-container {
-            display: flex !important;
-            justify-content: space-between !important;
-            align-items: center !important;
-            flex-wrap: wrap;
+        .btn-vg-solid:hover {
+            filter: brightness(0.95);
+            color: var(--vg-ink);
         }
 
-        #header-sidebar {
-            display: flex !important;
-            justify-content: flex-end !important;
-            align-items: center !important;
+        /* ===== Emergency strip di bawah navbar ===== */
+        .emergency-strip {
+            background: #ffffff;
+            border-bottom: 1px solid var(--vg-border);
         }
 
-        #header-sidebar .widget-first {
-            display: flex !important;
-            align-items: center !important;
-            gap: 15px;
-            background: none !important;
-            border: none !important;
-            box-shadow: none !important;
-            padding: 0 !important;
-            margin: 0 !important;
+        .emergency-strip .icon-circle {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: rgba(15, 110, 94, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--vg-primary);
+            font-size: 1.15rem;
+            flex-shrink: 0;
         }
 
-        #header-sidebar .text-image {
-            float: none !important;
-            margin: 0 !important;
-            display: flex !important;
-            align-items: center !important;
+        .emergency-strip h6 {
+            margin: 0;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--vg-ink);
         }
 
-        #header-sidebar .text-image img {
-            display: block !important;
-            max-height: 40px;
-            width: auto;
+        .emergency-strip p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--vg-muted);
         }
 
-        #header-sidebar .text-content {
-            float: none !important;
-            margin: 0 !important;
-            display: flex !important;
-            flex-direction: column !important;
-            justify-content: center !important;
+        /* ===== Konten ===== */
+        .content-wrap {
+            min-height: 420px;
+            padding: 2rem 0 3rem;
         }
 
-        #header-sidebar .text-content h3 {
-            color: #ffffff !important;
-            font-family: 'Open Sans Condensed', sans-serif !important;
-            font-size: 18px !important;
-            font-weight: bold !important;
-            margin: 0 0 2px 0 !important;
-            letter-spacing: 1px !important;
-            line-height: 1.2 !important;
+        /* ===== Footer ===== */
+        footer.vg-footer {
+            background: var(--vg-primary-dark);
+            color: #cfe3de;
+            font-size: 0.88rem;
         }
 
-        #header-sidebar .text-content p {
-            color: #a3b5c3 !important;
-            font-family: 'Open Sans', sans-serif !important;
-            font-size: 14px !important;
-            margin: 0 !important;
-            line-height: 1.2 !important;
-        }
-        
-        #logo #tagline {
-            color: #a3b5c3 !important;
-            margin-top: 5px !important;
+        footer.vg-footer h6 {
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 0.9rem;
         }
 
-        /* 5. Perbaikan Bagian Copyright Sesuai image_6f01b8.png */
-        #copyright .row {
-            display: flex !important;
-            justify-content: space-between !important;
-            align-items: center !important;
-            flex-wrap: wrap;
+        footer.vg-footer a {
+            color: #b9d4cd;
         }
 
-        #copyright .left {
-            display: flex !important;
-            align-items: center !important;
-            gap: 10px;
+        footer.vg-footer a:hover {
+            color: #ffffff;
         }
 
-        #copyright .left img {
-            max-height: 20px;
-            width: auto;
-            display: inline-block;
+        footer.vg-footer ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
         }
 
-        #copyright .right {
-            text-align: right;
+        footer.vg-footer ul li {
+            margin-bottom: 0.5rem;
         }
 
-        #copyright .right a {
-            color: #cbd113 !important;
-            font-weight: bold;
-            text-decoration: none !important;
+        .vg-copyright {
+            background: #093b32;
+            color: #a9c4bd;
+            font-size: 0.8rem;
         }
 
-        #copyright .right a:hover {
-            text-decoration: underline !important;
+        .vg-copyright a {
+            color: #cbd113;
+            font-weight: 600;
+        }
+
+        @media (max-width: 991.98px) {
+            .navbar-vg .nav-link {
+                color: #ffffff !important;
+            }
+
+            .navbar-vg .navbar-collapse {
+                padding-top: 0.75rem;
+            }
         }
     </style>
-
-    <script type='text/javascript' src='{{ asset('libra/js/jquery/jquery.js') }}'></script>
 </head>
 
-<body class="home page no_js responsive stretched">
-    <div class="bg-shadow">
-        
-        <div id="wrapper" class="container-fluid group" style="padding: 0; max-width: 100%; width: 100%;">
+<body>
 
-            <!-- START TOP BAR (NAVIGASI MENU UTAMA MEMBER) -->
-            <div id="topbar">
-                <div class="container">
-                    <div class="row" style="margin: 0 !important;">
-                        <div id="nav" style="display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; width: 100%;">
-                            
-                            <!-- MENU STRUKTUR JALUR ROUTE KHUSUS MEMBER -->
-                            <ul id="menu-menu" class="level-1">
-                                <li><a href="{{ url('/member/doctors') }}">DOCTOR</a></li>
-                                <li><a href="{{ url('/member/articles') }}">ARTICLE</a></li>
-                                <li><a href="{{ url('/member/bookings') }}">BOOKING</a></li>
-                                <li><a href="{{ url('/member/consultations') }}">CONSULTATION</a></li>
-                                <li><a href="{{ url('/member/history') }}">HISTORY</a></li>
-                            </ul>
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar navbar-expand-lg navbar-vg py-2">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url('/') }}">
+                Vita Guard
+                <small>Member Health Portal</small>
+            </a>
 
-                            <!-- SISTEM LOGOUT DI POJOK KANAN TOPBAR -->
-                            <div id="topbar_login">
-                                @auth
-                                    <a class="topbar_login" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                        LOGOUT ({{ Auth::user()->name }})
-                                    </a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                @else
-                                    <a class="topbar_login" href="{{ route('login') }}">LOGIN</a>
-                                @endauth
-                            </div>
+            <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#vgNavbar">
+                <i class="bi bi-list fs-1 text-white"></i>
+            </button>
 
-                        </div>
-                    </div>
+            <div class="collapse navbar-collapse" id="vgNavbar">
+                <ul class="navbar-nav mx-lg-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->is('member/doctors*') ? 'active' : '' }}" href="{{ url('/member/doctors') }}">
+                            <i class="bi bi-person-badge me-1"></i> Doctor
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->is('member/articles*') ? 'active' : '' }}" href="{{ url('/member/articles') }}">
+                            <i class="bi bi-journal-text me-1"></i> Article
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->is('member/bookings*') ? 'active' : '' }}" href="{{ url('/member/bookings') }}">
+                            <i class="bi bi-calendar-check me-1"></i> Booking
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->is('member/consultations*') ? 'active' : '' }}" href="{{ url('/member/consultations') }}">
+                            <i class="bi bi-chat-dots me-1"></i> Consultation
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->is('member/history*') ? 'active' : '' }}" href="{{ url('/member/history') }}">
+                            <i class="bi bi-clock-history me-1"></i> History
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
+                    @auth
+                    <span class="text-white-50 small d-none d-lg-inline">
+                        <i class="bi bi-person-circle me-1"></i>{{ Auth::user()->name }}
+                    </span>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-inline">
+                        @csrf
+                        <button type="submit" class="btn btn-vg-outline">
+                            <i class="bi bi-box-arrow-right me-1"></i> Logout
+                        </button>
+                    </form>
+                    @else
+                    <a href="{{ route('login') }}" class="btn btn-vg-solid">
+                        <i class="bi bi-box-arrow-in-right me-1"></i> Login
+                    </a>
+                    @endauth
                 </div>
             </div>
-            <!-- END TOP BAR -->
+        </div>
+    </nav>
 
-            <!-- START HEADER -->
-            <div id="header" class="group margin-bottom">
-                <div class="group container">
-                    <div class="row" id="logo-headersidebar-container">
-                        <!-- LOGO BRAND VITA GUARD -->
-                        <div id="logo" class="span6 group">
-                            <a id="logo-img" href="{{ url('/') }}" title="Libra">
-                                <img src="{{ asset('libra/images/libra-logo1.png') }}" title="Libra" alt="Libra" />
-                            </a>
-                            <p id='tagline'>Portal Kesehatan Vita Guard</p>
-                        </div>
-                        
-                        <!-- HEADER HUBUNGI KAMI / EMERGENCY -->
-                        <div id="header-sidebar" class="span6 group">
-                            <div class="widget-first widget header-text-image">
-                                <div class="text-image">
-                                    <img src="{{ asset('libra/images/phone1.png') }}" alt="CUSTOMER SUPPORT" />
-                                </div>
-                                <div class="text-content">
-                                    <h3>LAYANAN DARURAT</h3>
-                                    <p>+62 - 21 - 5551234</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <!-- ===== EMERGENCY STRIP ===== -->
+    <div class="emergency-strip py-3">
+        <div class="container d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div class="d-flex align-items-center gap-3">
+                <div class="icon-circle">
+                    <i class="bi bi-telephone-fill"></i>
+                </div>
+                <div>
+                    <h6>24 Hour Emergency Service</h6>
+                    <p>+62 21 5551234</p>
                 </div>
             </div>
-            <!-- END HEADER -->
-
-            <!-- START PRIMARY -->
-            <div id="primary" class="sidebar-no">
-                <div class="container group">
-                    <div class="row">
-                        <div id="content-home" class="span12 content group" style="min-height: 450px;">
-                            
-                            <!-- Slot Content Dinamis Blade Laravel -->
-                            @yield('content')
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- END PRIMARY -->
-
-            <!-- START FOOTER -->
-            <div id="footer">
-                <div class="container">
-                    <div class="row">
-                        <!-- <div class="footer-widgets-area with-sidebar-right">
-                            <div class="widget-first widget span4 widget_text">
-                                <h3>Tentang Kami</h3>
-                                <div class="textwidget">
-                                    Vita Guard berkomitmen menyediakan layanan edukasi serta konsultasi kesehatan terbaik langsung dari genggaman Anda.
-                                </div>
-                            </div> -->
-
-                            <!-- <div class="widget span4 widget_nav_menu">
-                                <h3>Navigasi Cepat</h3>
-                                <div class="menu-widget-footer-container">
-                                    <ul id="menu-widget-footer" class="menu">
-                                        <li><a href="{{ url('/member/doctors') }}">Cari Dokter</a></li>
-                                        <li><a href="{{ url('/member/articles') }}">Artikel Kesehatan</a></li>
-                                        <li><a href="{{ url('/member/bookings') }}">Konsultasi Online</a></li>
-                                    </ul>
-                                </div>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- END FOOTER -->
-
-            <!-- START COPYRIGHT -->
-            <div id="copyright">
-                <div class="container">
-                    <div class="row">
-                        <!-- SISI KERI: LOGO YITH DAN TEKS COPYRIGHT -->
-                        <div class="left span6">
-                            <p>
-                                <a href="http://yithemes.com/">
-                                    <img src="http://yithemes.com/cdn/images/various/footer_yith_grey.png" alt="Your Inspiration Themes" />
-                                </a>
-                                &nbsp;Copyright {{ date('Y') }} - <strong>Libra theme</strong> by Your Inspiration Themes
-                            </p>
-                        </div>
-                        <!-- SISI KANAN: TAUTAN DOWNLOAD STRUKTUR ASLI -->
-                        <div class="right span6">
-                            <p>
-                                <a href="http://yithemes.com/themes/wordpress/libra-corporate-portfolio-wp-theme/?ap_id=libra-html">
-                                    <strong>Download the free version for Wordpress</strong>
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- END COPYRIGHT -->
-
+            <a href="{{ url('/member/consultations') }}" class="d-none d-md-inline-flex align-items-center text-decoration-none" style="color: var(--vg-primary); font-weight:600; font-size:0.88rem;">
+                Consult a doctor now <i class="bi bi-arrow-right ms-1"></i>
+            </a>
         </div>
     </div>
 
-    <!-- JAVASCRIPT BINDING PLUGINS TEMPLATE -->
-    <script type='text/javascript' src='{{ asset('libra/js/comment-reply.min.js') }}'></script>
-    <script type='text/javascript' src='{{ asset('libra/js/underscore.min.js') }}'></script>
-    <script type='text/javascript' src='{{ asset('libra/js/jquery/jquery.masonry.min.js') }}'></script>
-    <script type='text/javascript' src='{{ asset('libra/sliders/polaroid/js/jquery.polaroid.js') }}'></script>
-    <script type='text/javascript' src='{{ asset('libra/js/jquery.colorbox-min.js') }}'></script>
-    <script type='text/javascript' src='{{ asset('libra/js/jquery.easing.js') }}'></script>
-    <script type='text/javascript' src='{{ asset('libra/js/jquery.carouFredSel-6.1.0-packed.js') }}'></script>
-    <script type='text/javascript' src='{{ asset('libra/js/jQuery.BlackAndWhite.js') }}'></script>
-    <script type='text/javascript' src='{{ asset('libra/js/jquery.touchSwipe.min.js') }}'></script>
-    <script type='text/javascript' src='{{ asset('libra/sliders/polaroid/js/jquery.transform-0.8.0.min.js') }}'></script>
-    <script type='text/javascript' src='{{ asset('libra/sliders/polaroid/js/jquery.preloader.js') }}'></script>
-    <script type='text/javascript' src='{{ asset('libra/js/responsive.js') }}'></script>
-    <script type='text/javascript' src='{{ asset('libra/js/mobilemenu.js') }}'></script>
-    <script type='text/javascript' src='{{ asset('libra/js/jquery.superfish.js') }}'></script>
-    <script type='text/javascript' src='{{ asset('libra/js/jquery.placeholder.js') }}'></script>
-    <script type='text/javascript' src='{{ asset('libra/js/contact.js') }}'></script>
-    <script type='text/javascript' src='{{ asset('libra/js/jquery.tipsy.js') }}'></script>
-    <script type='text/javascript' src='{{ asset('libra/js/jquery.cycle.min.js') }}'></script>
-    <script type='text/javascript' src='{{ asset('libra/js/shortcodes.js') }}'></script>
-    <script type='text/javascript' src='{{ asset('libra/js/jquery.custom.js') }}'></script>
+    <!-- ===== KONTEN ===== -->
+    <main class="content-wrap">
+        <div class="container">
+            @yield('content')
+        </div>
+    </main>
 
+    <!-- ===== FOOTER ===== -->
+    <footer class="vg-footer pt-5 pb-4">
+        <div class="container">
+            <div class="row gy-4">
+                <div class="col-lg-4">
+                    <h6 class="brand-font text-white fs-5">Vita Guard</h6>
+                    <p class="mb-0">
+                        Vita Guard provides health education and consultation services anytime, anywhere.
+                    </p>
+                </div>
+                <div class="col-lg-4">
+                    <h6>Quick Navigation</h6>
+                    <ul>
+                        <li><a href="{{ url('/member/doctors') }}">Find a Doctor</a></li>
+                        <li><a href="{{ url('/member/articles') }}">Health Articles</a></li>
+                        <li><a href="{{ url('/member/bookings') }}">Book a Consultation</a></li>
+                        <li><a href="{{ url('/member/history') }}">Consultation History</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h6>Contact us</h6>
+                    <ul>
+                        <li><i class="bi bi-geo-alt me-2"></i>Surabaya, Indonesia</li>
+                        <li><i class="bi bi-telephone me-2"></i>+62 21 5551234</li>
+                        <li><i class="bi bi-envelope me-2"></i>cs@vitaguard.id</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== COPYRIGHT ===== -->
+    <div class="vg-copyright py-3">
+        <div class="container d-flex flex-wrap justify-content-between gap-2">
+            <span>&copy; {{ date('Y') }} <strong>Vita Guard</strong>. All rights reserved.</span>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    @stack('scripts')
 </body>
+
 </html>

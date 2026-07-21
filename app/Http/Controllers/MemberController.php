@@ -7,6 +7,7 @@ use App\Models\Article;
 use App\Models\Doctor;
 use App\Models\Booking;
 use App\Models\Consultation;
+use App\Models\ConsultationMessage;
 use App\Models\DoctorSchedule;
 use Illuminate\Support\Facades\Auth;
 
@@ -181,5 +182,32 @@ class MemberController extends Controller
             ->get();
 
         return view('member.history.index', compact('myHistory'));
+    }
+    public function inputMessages(Request $request, Consultation $consultation){
+        if (Auth::user()->role == 'ADMIN') {
+            return redirect()
+                ->route('consultations.index')
+                ->with('error', 'Admin tidak dapat mengirim pesan.');
+        }
+        $message = new ConsultationMessage();
+
+        $message->consultation_id = $consultation->id;
+        $message->sender_type = auth()->user()->role;
+        $message->sender_id = auth()->id();
+        $message->message = $request->message;
+
+        $cons_id = $consultation->id;
+
+        $message->save();
+
+        if (Auth::user()->role == 'MEMBER') {
+            return redirect()
+                ->route('member.consultations.show', $cons_id )
+                ->with('success', 'Pesan berhasil dikirim.');
+        }
+
+        return redirect()
+            ->route('consultations.index')
+            ->with('success', 'Pesan berhasil dikirim.');
     }
 }

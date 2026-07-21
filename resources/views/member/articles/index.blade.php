@@ -1,44 +1,72 @@
 @extends('layouts.libra')
 
-@section('content')
-<div class="container" style="margin-top: 30px; margin-bottom: 50px;">
-    <br><br>
-    <div class="row" style="display: flex; justify-content: center; margin-bottom: 40px;">
-        <div class="span8" style="float: none; margin: 0 auto; text-align: center;">
-            <form action="{{ url('/member/articles') }}" method="GET" style="display: flex; gap: 10px; justify-content: center; align-items: center; width: 100%;">
-                <input type="text" name="search" placeholder="Search articles by title..." value="{{ request('search') }}" style="flex: 1; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; margin-bottom: 0;">
-                <button type="submit" class="btn btn-theme" style="padding: 12px 25px; height: 46px; line-height: 20px;">Search</button>
-            </form>
-        </div>
-    </div>
+@section('title', 'Health Articles')
 
-    <div class="row" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
-        @forelse ($allArticles as $article)
-        <div style="width: 360px; margin-bottom: 10px;">
-            <div class="home-posts" style="border: 1px solid #f0f0f0; padding: 20px; border-radius: 8px; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); height: 100%; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between;">
-                <div>
-                    <div class="post-image">
-                        @if($article->image && file_exists(public_path('storage/' . $article->image)))
-                            <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->article_name }}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 4px;" />
-                        @else
-                            <img src="{{ asset('storage/img/noImage.png') }}" alt="No Image Available" style="width: 100%; height: 200px; object-fit: cover; border-radius: 4px;" />
-                        @endif
-                    </div>
-                    <div class="entry-content" style="margin-top: 15px; text-align: left;">
-                        <h5 style="margin-bottom: 8px;"><strong><a href="{{ url('/member/articles/'.$article->id) }}" style="color: #333;">{{ $article->article_name }}</a></strong></h5>
-                        <p style="color: #888; font-size: 12px; margin-bottom: 12px;">Write by: {{ $article->doctor->user->name ?? 'Dokter Spesialis' }}</p>
-                    </div>
-                </div>
-                <div style="margin-top: 15px; text-align: left;">
-                    <a href="{{ url('/member/articles/'.$article->id) }}" class="more-link">Read more...</a>
-                </div>
-            </div>
-        </div>
-        @empty
-        <div class="span12" style="text-align: center; color: #fff;">
-            <p>Artikel tidak ditemukan.</p>
-        </div>
-        @endforelse
+@section('content')
+
+<!-- Page Header -->
+<div class="row mb-4">
+    <div class="col-lg-8">
+        <h3 class="fw-bold mb-1">Health Articles</h3>
+        <p class="text-muted mb-0">Read the latest health insights written by our specialists.</p>
     </div>
 </div>
+
+<!-- Search -->
+<div class="row justify-content-center mb-5">
+    <div class="col-lg-7">
+        <form action="{{ url('/member/articles') }}" method="GET" class="input-group input-group-lg shadow-sm" style="border-radius: 10px; overflow: hidden;">
+            <span class="input-group-text bg-white border-0">
+                <i class="bi bi-search" style="color: var(--vg-muted);"></i>
+            </span>
+            <input type="text" name="search" class="form-control border-0" placeholder="Search articles by title..." value="{{ request('search') }}">
+            <button type="submit" class="btn text-white border-0" style="background: var(--vg-primary);">
+                Search
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Article Grid -->
+<div class="row g-4">
+    @forelse ($allArticles as $article)
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 border-0 shadow-sm" style="border-radius: 14px;">
+
+            @if ($article->image && file_exists(public_path('storage/' . $article->image)))
+            <img src="{{ asset('storage/' . $article->image) }}"
+                alt="{{ $article->article_name }}"
+                class="card-img-top"
+                style="height: 190px; object-fit: cover; border-radius: 14px 14px 0 0;" />
+            @else
+            <img src="{{ asset('storage/img/noImage.png') }}"
+                alt="No image available"
+                class="card-img-top"
+                style="height: 190px; object-fit: cover; border-radius: 14px 14px 0 0;" />
+            @endif
+
+            <div class="card-body d-flex flex-column">
+                <h5 class="fw-bold mb-2">
+                    <a href="{{ url('/member/articles/'.$article->id) }}" class="text-decoration-none" style="color: var(--vg-ink);">
+                        {{ $article->article_name }}
+                    </a>
+                </h5>
+                <p class="mb-3" style="color: var(--vg-muted); font-size: 0.85rem;">
+                    <i class="bi bi-person-badge me-1"></i>{{ $article->doctor->user->name ?? 'Specialist Doctor' }}
+                </p>
+
+                <a href="{{ url('/member/articles/'.$article->id) }}" class="mt-auto d-inline-flex align-items-center text-decoration-none fw-semibold" style="color: var(--vg-primary); font-size: 0.9rem;">
+                    Read more <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    @empty
+    <div class="col-12 text-center py-5">
+        <i class="bi bi-file-earmark-x" style="font-size: 2.5rem; color: var(--vg-muted);"></i>
+        <p class="text-muted mt-2 mb-0">No articles found.</p>
+    </div>
+    @endforelse
+</div>
+
 @endsection

@@ -1,27 +1,50 @@
 @extends('layouts.libra')
 
-@section('content')
-<div class="container" style="margin-top: 30px; margin-bottom: 50px;">
-    <div class="row">
-        <div class="span8 offset2">
-            <div class="chat-container" style="background: #fff; border: 1px solid #eee; border-radius: 8px; overflow: hidden;">
-                <div style="background: #3fbbc0; padding: 15px 20px; color: #fff; display: flex; justify-content: space-between; align-items: center;">
-                    <h5 style="margin: 0; font-weight: bold; color: #fff;">Konsultasi Online: Dr. {{ $consultation->booking->doctor->user->name ?? 'Dokter' }}</h5>
-                    <span style="background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 20px; font-size: 12px;">Status: {{ ucfirst($consultation->status) }}</span>
-                </div>
+@section('title', 'Consultation History Detail')
 
-                <div style="height: 350px; overflow-y: auto; padding: 20px; background: #f4f7f6; display: flex; flex-direction: column; gap: 15px;">
-                    @foreach($messages as $msg)
-                        <div style="display: flex; flex-direction: column; align-items: {{ $msg->sender_id == auth()->id() ? 'flex-end' : 'flex-start' }};">
-                            <div style="max-width: 70%; padding: 10px 15px; border-radius: 12px; background: {{ $msg->sender_id == auth()->id() ? '#3fbbc0' : '#fff' }}; color: {{ $msg->sender_id == auth()->id() ? '#fff' : '#333' }}; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">
-                                {{ $msg->message }}
-                            </div>
-                            <small style="color: #aaa; font-size: 10px; margin-top: 3px;">{{ $msg->created_at->format('H:i') }}</small>
-                        </div>
-                    @endforeach
+@section('content')
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm overflow-hidden" style="border-radius: 14px;">
+
+            <!-- Header -->
+            <div class="d-flex justify-content-between align-items-center px-4 py-3" style="background: var(--vg-primary);">
+                <h5 class="mb-0 fw-bold text-white">
+                    <i class="bi bi-chat-dots me-2"></i>Online Consultation: {{ $consultation->booking->doctor->user->name ?? 'Doctor' }}
+                </h5>
+                <span class="badge rounded-pill" style="background: rgba(255,255,255,0.2); color: #fff;">
+                    Status: {{ ucfirst(strtolower($consultation->status)) }}
+                </span>
+            </div>
+
+            <!-- Message Log (read-only) -->
+            <div class="d-flex flex-column gap-3 p-4" style="height: 380px; overflow-y: auto; background: var(--vg-bg);">
+                @foreach ($messages as $msg)
+                <div class="d-flex flex-column" style="align-items: {{ $msg->sender_id == auth()->id() ? 'flex-end' : 'flex-start' }};">
+                    <div class="px-3 py-2 shadow-sm"
+                        style="max-width: 70%; border-radius: 14px;
+                                        background: {{ $msg->sender_id == auth()->id() ? 'var(--vg-primary)' : '#ffffff' }};
+                                        color: {{ $msg->sender_id == auth()->id() ? '#ffffff' : 'var(--vg-ink)' }};">
+                        {{ $msg->message }}
+                    </div>
+                    <small class="mt-1" style="color: var(--vg-muted); font-size: 0.72rem;">
+                        {{ $msg->created_at->format('H:i') }}
+                    </small>
+                </div>
+                @endforeach
+            </div>
+
+            <!-- Closed Notice -->
+            <div class="p-3 bg-white border-top">
+                <div class="alert alert-secondary text-center mb-0">
+                    <i class="bi bi-archive-fill me-1"></i>
+                    This is an archived conversation. Consultation history cannot be edited or continued.
                 </div>
             </div>
+
         </div>
     </div>
 </div>
+
 @endsection

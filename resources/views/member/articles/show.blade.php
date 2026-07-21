@@ -1,29 +1,50 @@
 @extends('layouts.libra')
 
+@section('title', $article->title)
+
 @section('content')
-<div class="container" style="margin-top: 40px; margin-bottom: 50px;">
-    <div class="row">
-        <div class="span8 offset2">
-            <article style="background: #fff; padding: 30px; border-radius: 8px; border: 1px solid #f0f0f0;">
-                <div class="post-image">
-                    @if($article->image && file_exists(public_path('storage/' . $article->image)))
-                        <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->article_name }}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 4px;" />
-                    @else
-                        <img src="{{ asset('storage/img/noImage.png') }}" alt="No Image Available" style="width: 100%; height: 200px; object-fit: cover; border-radius: 4px;" />
-                    @endif
+
+<a href="{{ url('/member/articles') }}" class="d-inline-flex align-items-center text-decoration-none mb-4" style="color: var(--vg-muted); font-size: 0.9rem;">
+    <i class="bi bi-arrow-left me-1"></i> Back to Articles
+</a>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <article class="card border-0 shadow-sm" style="border-radius: 14px;">
+            <div class="card-body p-4 p-md-5">
+
+                @if ($article->image && file_exists(public_path('storage/' . $article->image)))
+                <img src="{{ asset('storage/' . $article->image) }}"
+                    alt="{{ $article->article_name }}"
+                    class="w-100 mb-4"
+                    style="height: 320px; object-fit: cover; border-radius: 10px;" />
+                @else
+                <img src="{{ asset('storage/img/noImage.png') }}"
+                    alt="No image available"
+                    class="w-100 mb-4"
+                    style="height: 320px; object-fit: cover; border-radius: 10px;" />
+                @endif
+
+                <h2 class="fw-bold mb-2" style="line-height: 1.4;">{{ $article->title }}</h2>
+
+                <div class="d-flex align-items-center gap-2 mb-4 pb-4 border-bottom" style="color: var(--vg-muted); font-size: 0.9rem;">
+                    <i class="bi bi-person-badge" style="color: var(--vg-primary);"></i>
+                    <span>Published by <strong>{{ $article->doctor->user->name ?? 'Doctor' }}</strong></span>
                 </div>
-                <h2 style="font-weight: bold; line-height: 1.4; margin-bottom: 10px;">{{ $article->title }}</h2>
-                <div class="post-meta" style="margin-bottom: 30px; color: #888; font-size: 13px;">
-                    <span> Published by: <strong>{{ $article->doctor->user->name ?? 'Doctor' }}</strong></span>
-                </div>
-                <div class="entry-body" style="font-size: 16px; line-height: 1.8; text-align: justify; white-space: pre-line;">
+
+                <div class="entry-body" style="font-size: 1.02rem; line-height: 1.85; text-align: justify; white-space: pre-line;">
                     {{ $article->content }}
                 </div>
-                <div style="margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px;">
-                    <a href="{{ url('/member/articles') }}" class="btn btn-theme"><i class="icon-arrow-left"></i> Back</a>
+
+                <div class="mt-5 pt-4 border-top">
+                    <a href="{{ url('/member/articles') }}" class="btn text-white" style="background: var(--vg-primary);">
+                        <i class="bi bi-arrow-left me-1"></i> Back to Articles
+                    </a>
                 </div>
-            </article>
-        </div>
+
+            </div>
+        </article>
     </div>
 </div>
+
 @endsection

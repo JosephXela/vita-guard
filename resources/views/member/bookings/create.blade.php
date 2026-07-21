@@ -1,40 +1,57 @@
 @extends('layouts.libra')
 
+@section('title', 'Book a Consultation')
+
 @section('content')
-<div class="container" style="margin-top: 40px; margin-bottom: 50px;">
-    <div class="row">
-        <div class="span6 offset3">
-            <div class="form-wrapper" style="background: #fff; border: 1px solid #eee; padding: 30px; border-radius: 8px;">
-                <h4 style="font-weight: bold; margin-bottom: 5px;">Consultation Booking Form</h4>
-                <p style="color: #666; margin-bottom: 25px;">Select the available operating schedule for the doctor of your choice.</p>
 
-                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 25px; padding: 15px; background: #f9f9f9; border-radius: 6px;">
-                    <div class="doctor-image">
-                        @if($doctor->image && file_exists(public_path('storage/' . $doctor->image)))
-                            <img src="{{ asset('storage/' . $doctor->image) }}" alt="Foto {{ $doctor->user->name }}" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;" />
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm" style="border-radius: 14px;">
+                <div class="card-body p-4 p-md-5">
+
+                    <h4 class="fw-bold mb-1">Consultation Booking Form</h4>
+                    <p class="text-muted mb-4">Select the available operating schedule for the doctor of your choice.</p>
+
+                    <!-- Doctor Summary -->
+                    <div class="d-flex align-items-center gap-3 p-3 mb-4" style="background: var(--vg-bg); border-radius: 10px;">
+                        @if ($doctor->image && file_exists(public_path('storage/' . $doctor->image)))
+                            <img src="{{ asset('storage/' . $doctor->image) }}"
+                                 alt="Photo of {{ $doctor->user->name }}"
+                                 class="rounded-circle"
+                                 style="width: 64px; height: 64px; object-fit: cover;" />
                         @else
-                            <img src="{{ asset('storage/img/noimage.png') }}" alt="No Image Available" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;" />
+                            <img src="{{ asset('storage/img/noimage.png') }}"
+                                 alt="Photo not available"
+                                 class="rounded-circle"
+                                 style="width: 64px; height: 64px; object-fit: cover;" />
                         @endif
-                    </div>                     
-                    <div>
-                        <h5 style="margin: 0; font-weight: bold;">{{ $doctor->user->name }}</h5>
-                        <small style="color: #3fbbc0;">Spesialization: {{ $doctor->specialization }}</small>
-                    </div>
-                </div>
 
-                <form action="{{ url('/member/bookings') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="doctor_id" value="{{ $doctor->id }}">
-                    <div style="margin-bottom: 20px;">
-                        <label style="font-weight: bold; display: block; margin-bottom: 8px;">Notes (Opsional):</label>
-                        <textarea name="notes" rows="3" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;" placeholder="Write a complaint or note for the doctor..."></textarea>
+                        <div>
+                            <h6 class="fw-bold mb-0">{{ $doctor->user->name }}</h6>
+                            <small style="color: var(--vg-primary); font-weight: 600;">
+                                <i class="bi bi-clipboard2-pulse me-1"></i>{{ $doctor->specialization }}
+                            </small>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-theme btn-block" style="padding: 12px; font-weight: bold; width: 100%;">
-                        Confirmation
-                    </button>
-                </form>
+
+                    <!-- Booking Form -->
+                    <form action="{{ url('/member/bookings') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="doctor_id" value="{{ $doctor->id }}">
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Notes (Optional)</label>
+                            <textarea name="notes" rows="3" class="form-control" placeholder="Write a complaint or note for the doctor..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn text-white w-100 py-2 fw-bold" style="background: var(--vg-primary);">
+                            <i class="bi bi-check2-circle me-1"></i> Confirm Booking
+                        </button>
+                    </form>
+
+                </div>
             </div>
         </div>
     </div>
-</div>
+
 @endsection
